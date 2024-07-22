@@ -45,13 +45,13 @@ class GerenciamentoUsers():
         
         nomeTabela = user.replace(' ', '_')
         
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS ? (
+        self.cursor.execute(f'''CREATE TABLE IF NOT EXISTS {nomeTabela} (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
             data TEXT NOT NULL,
             valor INTEGER NOT NULL,
             tipo INTEGER NOT NULL
-            )''', (nomeTabela,))
+            )''')
         self.connection.commit()
         self.desconectar()
         
@@ -59,7 +59,7 @@ class GerenciamentoUsers():
     
     def getIdDados(self, user: str, nome: str):
         self.conectar()
-        id = self.cursor.execute("SELECT id FROM? WHERE nome =?", (user.replace(' ', '_'), nome)).fetchone()
+        id = self.cursor.execute(f"SELECT id FROM {user.replace(' ', '_')} WHERE nome = ?", (nome,)).fetchone()
         self.desconectar()
         
         return id[0] if id else None
@@ -69,46 +69,46 @@ class GerenciamentoUsers():
         
         id = self.getIdDados(user, nome)
         
-        self.cursor.execute("UPDATE ? SET nome =?, data =?, valor =?, tipo =? WHERE id =?", (user.replace(' ', '_'), nome, data, valor, tipo, id))
+        self.cursor.execute(f"UPDATE {user.replace(' ', '_')} SET nome =?, data =?, valor =?, tipo =? WHERE id =?", (nome, data, valor, tipo, id))
         self.connection.commit()
         self.desconectar()
     
     def removerDados(self, user: str, nome: str):
         self.conectar()
-        self.cursor.execute("DELETE FROM ? WHERE nome =?", (user.replace(' ', '_'), nome))
+        self.cursor.execute(f"DELETE FROM {user.replace(' ', '_')} WHERE nome =?", (nome,))
         self.connection.commit()
         self.desconectar()
     
     def adicionarDados(self, user: str, nome: str, data: str, valor: int, tipo: int):
         self.conectar()
-        self.cursor.execute("INSERT INTO ? (nome, data, valor, tipo) VALUES (?,?,?,?)", (user.replace(' ', '_'), nome, data, valor, tipo))
+        self.cursor.execute(f"INSERT INTO {user.replace(' ', '_')} (nome, data, valor, tipo) VALUES (?,?,?,?)", (nome, data, valor, tipo))
         self.connection.commit()
         self.desconectar()
         
     def listarDados(self, user: str):
         self.conectar()
-        dados = self.cursor.execute(f"SELECT * FROM ?", (user.replace(' ', '_')))
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')}")
         self.desconectar()
         
         return dados.fetchall()
 
     def buscarDadosData(self, user: str, data: str):
         self.conectar()
-        dados = self.cursor.execute(f"SELECT * FROM ? WHERE data = ?", (user.replace(' ', '_'), data))
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE data = ?", (data,))
         self.desconectar()
         
         return dados.fetchall()
     
     def buscarDadosTipo(self, user: str, tipo: int):
         self.conectar()
-        dados = self.cursor.execute(f"SELECT * FROM ? WHERE tipo = ?", (user.replace(' ', '_'), tipo))
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE tipo = ?", (tipo,))
         self.desconectar()
         
         return dados.fetchall()    
 
     def buscarDadosNome(self, user: str, nome: str):
         self.conectar()
-        dados = self.cursor.execute(f"SELECT * FROM ? WHERE nome LIKE ?", (user.replace(' ', '_'), nome))
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE nome LIKE ?", (nome,))
         self.desconectar()
         
         return dados.fetchone()

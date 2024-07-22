@@ -25,29 +25,59 @@ def sobre():
 def servicos():
     return render_template('servicos.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    message = ''
     user = session.get('user')
     senha = session.get('senha')
     
-    if (user != None or user != "" and senha != None or senha != ""):
+    if (user != None or user != "" and senha != None or senha != "" and gerenciamentoUsers.containsUser(user)):
         if (gerenciamentoUsers.senhaCorreta(user, senha)):
             return redirect(url_for('dashboard'))
+        
+    if (request.method == 'POST'):
+        formUser = request.form.get('user')
+        formSenha = request.form.get('senha')
+        
+        if (gerenciamentoUsers.containsUser(formUser)):
+            if (gerenciamentoUsers.senhaCorreta(formUser, formSenha)):
+                session['user'] = formUser
+                session['senha'] = formSenha
+                return redirect(url_for('dashboard'))
+        
+        message = 'Usuário ou senha incorretos'
     
-    return render_template('login.html')
+    return render_template('login.html', message = message)
 
-@app.route('/registro')
+@app.route('/registro', methods=['GET', 'POST'])
 def registro():
+    message = ''
     user = session.get('user')
     senha = session.get('senha')
     
     if (user != None or user != "" and senha != None or senha != ""):
         if (gerenciamentoUsers.senhaCorreta(user, senha)):
             return redirect(url_for('dashboard'))
+        
+    if (request.method == 'POST'):
+        formUser = str(request.form.get('user'))
+        formSenha = str(request.form.get('senha'))
+        formCSenha = str(request.form.get('cSenha'))
+        
+        if (gerenciamentoUsers.containsUser(formUser)):
+            message = 'Usuário já cadastrado'
+        else:
+            if (formSenha == formCSenha):
+                gerenciamentoUsers.criarUser(formUser, formSenha, 1)
+                session['user'] = formUser
+                session['senha'] = formSenha
+                return redirect(url_for('dashboard'))
+            else:
+                message = 'Senhas não conferem.' + str(formCSenha) + ' / ' + str(formSenha)
     
-    return render_template('registro.html')
+    return render_template('registro.html', message = message)
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     user = session.get('user')
     senha = session.get('senha')
@@ -57,6 +87,13 @@ def dashboard():
             return render_template('dashboard.html')
     
     return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    session.pop('senha', None)
+    
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     gerenciamentoUsers.criarTabela()

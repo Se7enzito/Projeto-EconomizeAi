@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>EconomizeAi - Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+    <div id="content">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="https://github.com/Se7enzito/Projeto-EconomizeAi">EconomizeAi</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a href="{{ url_for('index') }}" class="nav-link active" aria-current="page">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('sobre') }}" class="nav-link">Sobre</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('servicos') }}" class="nav-link">Serviços</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('registro') }}" class="nav-link">Registro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="d-flex align-items-center text-center justify-content-center">
+            <div class="container d-flex align-items-center text-center justify-content-center flex-column gap-4">
+                {% if message %}
+                <p class="font message">{{ message }}</p>
+                {% endif %}
+
+                <form action="/login" method="POST">
+                    <div class="mb-3 d-flex flex-column text-center">
+                        <label for="user" class="font form-label label">Usuário</label>
+                        <input class="font input" type="text" id="user" name="user" placeholder="Digite seu usuário"
+                            required>
+                    </div>
+
+                    <div class="mb-3 d-flex flex-column text-center">
+                        <label for="senha" class="font form-label label">Senha</label>
+                        <div class="input-with-icon">
+                            <input class="font input" type="password" id="senha" name="senha"
+                                placeholder="Digite sua senha" required>
+                            <img src="{{ url_for('static', filename='imgs/olho.png') }}" id="olho" alt="Imagem Olho">
+                        </div>
+
+                        <div class="d-flex flex-column justify-content-around">
+                            <button type="submit" class="font submit">Logar</button>
+                            <a href="{{ url_for('registro') }}" class="font mudaTela">Aba de Registro</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">EconomizeAi</h5>
+                        <p>Uma solução profissional para seus problemas!</p>
+                        <p>Em caso de erros entre em contato com nosso suporte.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0 text-center">
+                        <h5 class="text-uppercase">Link Projeto</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a href="https://github.com/Se7enzito/Projeto-EconomizeAi" class="text-white">GitHub</a>
+                            </li>
+                            <li>
+                                <a href="#!" class="text-white">Site</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0 text-center">
+                        <h5 class="text-uppercase mb-0">Contatos de Suporte</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://www.instagram.com/bernardocastro___/" class="text-white">Bernardo de
+                                    Castro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center p-3">
+                © 2024 Copyright <a class="text-white" href="#">EconomizeAi</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/senha.js') }}"></script>
+</body>
+
+</html>
