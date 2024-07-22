@@ -50,7 +50,7 @@ class GerenciamentoUsers():
             nome TEXT NOT NULL,
             data TEXT NOT NULL,
             valor INTEGER NOT NULL,
-            tipo INTEGER NOT NULL
+            tipo TEXT NOT NULL
             )''')
         self.connection.commit()
         self.desconectar()
@@ -64,7 +64,7 @@ class GerenciamentoUsers():
         
         return id[0] if id else None
     
-    def atualizarDados(self, user: str, nome: str, data: str, valor: int, tipo: int):
+    def atualizarDados(self, user: str, nome: str, data: str, valor: int, tipo: str):
         self.conectar()
         
         id = self.getIdDados(user, nome)
@@ -79,7 +79,7 @@ class GerenciamentoUsers():
         self.connection.commit()
         self.desconectar()
     
-    def adicionarDados(self, user: str, nome: str, data: str, valor: int, tipo: int):
+    def adicionarDados(self, user: str, nome: str, data: str, valor: int, tipo: str):
         self.conectar()
         self.cursor.execute(f"INSERT INTO {user.replace(' ', '_')} (nome, data, valor, tipo) VALUES (?,?,?,?)", (nome, data, valor, tipo))
         self.connection.commit()
@@ -99,7 +99,7 @@ class GerenciamentoUsers():
         
         return dados.fetchall()
     
-    def buscarDadosTipo(self, user: str, tipo: int):
+    def buscarDadosTipo(self, user: str, tipo: str):
         self.conectar()
         dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE tipo = ?", (tipo,))
         self.desconectar()

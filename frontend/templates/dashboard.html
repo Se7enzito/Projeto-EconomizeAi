@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>EconomizeAi - Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+    <div id="content">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="https://github.com/Se7enzito/Projeto-EconomizeAi">EconomizeAi</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li>
+                                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div>
+                <div>
+                    <h2>Resumo Finanças</h2>
+                </div>
+
+                <div>
+                    <h2>Dados Finanças</h2>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#modalAdicionar">Adicionar</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#modalRemover">Remover</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#modalAtualizar">Atualizar</button>
+                </div>
+            </div>
+
+            <!-- Adicionar -->
+            <div class="modal fade" id="modalAdicionar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">Adicionar Finança</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="#" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data">Data</label>
+                                    <input type="date" class="form-control" id="data" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor">Valor</label>
+                                    <input type="number" class="form-control" id="valor" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipo">Tipo</label>
+                                    <select class="form-select" id="tipo" required>
+                                        <option value="1">Receita</option>
+                                        <option value="2">Despesa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Adicionar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atualizar -->
+            <div class="modal fade" id="modalAtualizar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">Adicionar Finança</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="#" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data">Data</label>
+                                    <input type="date" class="form-control" id="data" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor">Valor</label>
+                                    <input type="number" class="form-control" id="valor" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipo">Tipo</label>
+                                    <select class="form-select" id="tipo" required>
+                                        <option value="1">Receita</option>
+                                        <option value="2">Despesa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Atualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remover -->
+            <div class="modal fade" id="modalRemover" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">Adicionar Finança</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="#" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Remover</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        {% for i in item %}
+                        <td>{{ i }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+
+        <footer>
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">EconomizeAi</h5>
+                        <p>Uma solução profissional para seus problemas!</p>
+                        <p>Em caso de erros entre em contato com nosso suporte.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0 text-center">
+                        <h5 class="text-uppercase">Link Projeto</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a href="https://github.com/Se7enzito/Projeto-EconomizeAi" class="text-white">GitHub</a>
+                            </li>
+                            <li>
+                                <a href="#!" class="text-white">Site</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0 text-center">
+                        <h5 class="text-uppercase mb-0">Contatos de Suporte</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://www.instagram.com/bernardocastro___/" class="text-white">Bernardo de
+                                    Castro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center p-3">
+                © 2024 Copyright <a class="text-white" href="#">EconomizeAi</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        const myModal = new bootstrap.Modal(
+            document.getElementById("modalId"),
+            options,
+        );
+    </script>
+</body>
+
+</html>
