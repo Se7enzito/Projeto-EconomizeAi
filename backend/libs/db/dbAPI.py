@@ -49,8 +49,9 @@ class GerenciamentoUsers():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
             data TEXT NOT NULL,
-            valor INTEGER NOT NULL,
-            tipo TEXT NOT NULL
+            valor REAL NOT NULL,
+            tipo TEXT NOT NULL,
+            pago INTEGER NOT NULL
             )''')
         self.connection.commit()
         self.desconectar()
@@ -81,16 +82,68 @@ class GerenciamentoUsers():
     
     def adicionarDados(self, user: str, nome: str, data: str, valor: int, tipo: str):
         self.conectar()
-        self.cursor.execute(f"INSERT INTO {user.replace(' ', '_')} (nome, data, valor, tipo) VALUES (?,?,?,?)", (nome, data, valor, tipo))
+        
+        pago = 0 if tipo == 'Despesa' else 1
+        
+        self.cursor.execute(f"INSERT INTO {user.replace(' ', '_')} (nome, data, valor, tipo, pago) VALUES (?,?,?,?,?)", (nome, data, valor, tipo, pago))
         self.connection.commit()
         self.desconectar()
         
-    def listarDados(self, user: str):
+    def getPago(self, user: str, nome: str):
         self.conectar()
-        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')}")
+        pago = self.cursor.execute(f"SELECT pago FROM {user.replace(' ', '_')} WHERE nome =?", (nome,)).fetchone()
         self.desconectar()
         
-        return dados.fetchall()
+        return pago[0]
+    
+    def removerPago(self, user: str, nome: str):
+        self.conectar()
+        self.cursor.execute(f"UPDATE {user.replace(' ', '_')} SET pago = 0 WHERE nome =?", (nome,))
+        self.connection.commit()
+        self.desconectar()
+    
+    def definirPago(self, user: str, nome: str):
+        self.conectar()
+        self.cursor.execute(f"UPDATE {user.replace(' ', '_')} SET pago = 1 WHERE nome =?", (nome,))
+        self.connection.commit()
+        self.desconectar()
+        
+    def getListaPagos(self, user: str):
+        self.conectar()
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE pago = 1").fetchall()
+        self.desconectar()
+        
+        return dados
+    
+    def getListaNaoPagos(self, user: str):
+        self.conectar()
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')} WHERE pago = 0").fetchall()
+        self.desconectar()
+        
+        return dados
+    
+    def listarDados(self, user: str):
+        self.conectar()
+        
+        dados = self.cursor.execute(f"SELECT * FROM {user.replace(' ', '_')}").fetchall()
+        
+        self.desconectar()
+        
+        return dados
+    
+    def getValorDespesas(self, user: str):
+        self.conectar()
+        valor = self.cursor.execute(f"SELECT SUM(valor) FROM {user.replace(' ', '_')} WHERE tipo = 'Despesa'").fetchone()
+        self.desconectar()
+        
+        return valor[0] if valor else 0
+    
+    def getValorReceitas(self, user: str):
+        self.conectar()
+        valor = self.cursor.execute(f"SELECT SUM(valor) FROM {user.replace(' ', '_')} WHERE tipo = 'Receita'").fetchone()
+        self.desconectar()
+        
+        return valor[0] if valor else 0
 
     def buscarDadosData(self, user: str, data: str):
         self.conectar()
