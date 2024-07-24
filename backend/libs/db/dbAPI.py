@@ -32,7 +32,6 @@ class GerenciamentoUsers():
                                 senha TEXT NOT NULL,
                                 perm INTEGER NOT NULL
                             )''')
-        self.cursor.execute('''INSERT INTO users (user, senha, perm) VALUES ('admin', 'admin', 3)''')
         self.connection.commit()
         self.desconectar()
     
